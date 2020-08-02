@@ -37,7 +37,8 @@ Things to remember<br>
 <li><b>Excessive use leads to over-engineering.</b></li>
 </ul>
 
-I will quote an answer on a StackOverflow question on "When to use and when not to use"
+I will quote an <a href="https://softwareengineering.stackexchange.com/a/49383">answer</a> on a StackOverflow
+ <a href="https://softwareengineering.stackexchange.com/q/49379">question</a> on "When to use and when not to use design patterns"
 Always follow KISS first, patterns later, maybe much later. A
  pattern is a state of mind, mostly. 
 Don't ever try to force your code into a specific pattern, rather notice which patterns start to crystalize out of
