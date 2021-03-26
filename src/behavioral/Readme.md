@@ -2,7 +2,7 @@
 Behavioral patterns describe interactions between objects and focus on how objects communicate with
  each other. Behavioral patterns are concerned with algorithms and the assignment of responsibilities between objects
  . Behavioral patterns describe not just patterns of objects or classes but also the patterns of communication between them. 
- That means the implementation and the client should be loosely coupled in order to avoid hard coding and dependencies.                                                                                                                            
+                                                                                
 Types of Behavioral Patterns:
  <ul>
  <li>Interpreter Pattern</li>
