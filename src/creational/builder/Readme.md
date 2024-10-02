@@ -41,15 +41,15 @@ The pattern relies on encapsulation and method chaining. The builder accumulates
 ## UML Diagram
 
 ```
-                    ┌─────────────────────┐
-                    │     <<interface>>   │
-                    │       Builder       │
-                    ├─────────────────────┤
-                    │ + buildPartA(): void│
-                    │ + buildPartB(): void│
-                    │ + buildPartC(): void│
+                    ┌───────────────────────┐
+                    │     <<interface>>     │
+                    │       Builder         │
+                    ├───────────────────────┤
+                    │ + buildPartA(): void  │
+                    │ + buildPartB(): void  │
+                    │ + buildPartC(): void  │
                     │ + getResult(): Product│
-                    └─────────────────────┘
+                    └───────────────────────┘
                               ▲
                               │
                               │
