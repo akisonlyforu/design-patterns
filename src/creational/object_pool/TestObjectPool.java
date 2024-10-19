@@ -1,11 +1,5 @@
 package creational.object_pool;
 
-class ExpensiveObjectFactory implements ObjectFactory<ExpensiveObject> {
-    public ExpensiveObject create() {
-        return new ExpensiveObject(); // Factory knows the concrete type
-    }
-}
-
 public class TestObjectPool {
     public static void main(String[] args) {
         System.out.println("=== Testing Object Pool Pattern ===\n");
