@@ -1,20 +1,52 @@
 package structural.adapter;
 
-public class WebInterfaceAdapter implements WebInterface{
+interface WebInterface {
+    void get();
+    void select();
+}
 
-  OldWebInterface oldWebInterface;
+interface OldWebInterface {
+    void find();
+    void click();
+}
 
-  WebInterfaceAdapter(OldWebInterface oldWebInterface) {
-    this.oldWebInterface = oldWebInterface;
-  }
+class OldWebInterfaceImpl implements OldWebInterface {
+    @Override
+    public void find() {
+        System.out.println("FIND OldWebInterface Impl");
+    }
+    @Override
+    public void click() {
+        System.out.println("CLICK OldWebInterface Impl");
+    }
+}
 
-  @Override
-  public void get() {
-    oldWebInterface.find();
-  }
+class WebInterfaceImpl implements WebInterface {
+    @Override
+    public void get() {
+        System.out.println("GET WebInterface Impl");
+    }
+    @Override
+    public void select() {
+        System.out.println("SELECT WebInterface Impl");
+    }
+}
 
-  @Override
-  public void select() {
-    oldWebInterface.click();
-  }
+public class WebInterfaceAdapter implements WebInterface {
+
+    OldWebInterface oldWebInterface;
+
+    WebInterfaceAdapter(OldWebInterface oldWebInterface) {
+        this.oldWebInterface = oldWebInterface;
+    }
+
+    @Override
+    public void get() {
+        oldWebInterface.find();
+    }
+
+    @Override
+    public void select() {
+        oldWebInterface.click();
+    }
 }
