@@ -2,7 +2,11 @@
 
 ## What is Bridge Pattern?
 
-Bridge Pattern is a structural design pattern that separates an abstraction from its implementation so that both can vary independently. It applies Single Responsibility and Open-Closed Principles by switching from inheritance to composition, allowing both hierarchies to be developed independently without affecting each other.
+Bridge Pattern is a structural design pattern that separates an abstraction from its implementation so that both can vary independently. 
+It applies Single Responsibility and Open-Closed Principles by switching from inheritance to composition, allowing both hierarchies to be developed independently without affecting each other.
+
+## Inheritance vs Composition
+Inheritance can only grow in one direction but composition can grow in multiple independent directions.
 
 ## Purpose
 
@@ -29,7 +33,7 @@ The pattern relies on composition rather than inheritance. The abstraction conta
 - **Independent Development** - Abstraction and implementation hierarchies can be developed separately
 - **Runtime Flexibility** - Implementation can be selected or switched at runtime
 - **No Class Explosion** - Avoids n×m class combinations, reduces to n+m classes
-- **Implementation Hiding** - Client code is completely decoupled from implementation details
+- **Implementation Hiding** - Client code is completely decoupled from implementation details and knows only about abstraction.
 - **Easy Extension** - New abstractions and implementations can be added without affecting existing code
 - **Interface Stability** - Changes in implementation don't affect client code
 
