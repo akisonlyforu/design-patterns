@@ -1,7 +1,6 @@
 package behavioral.command;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class TestLightCommand {
     public static void main(String[] args) {
