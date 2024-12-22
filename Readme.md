@@ -53,7 +53,7 @@ As quoted from a [StackOverflow answer](https://softwareengineering.stackexchang
 
 This guide covers all three fundamental categories of design patterns:
 
-### [Creational Patterns](./creational/Readme.md)
+### [Creational Patterns](./src/creational/Readme.md)
 **Focus**: Object creation mechanisms and instantiation control
 
 Patterns covered:
@@ -66,7 +66,7 @@ Patterns covered:
 
 **Use when**: You need to control how objects are created, manage expensive object creation, or decouple object creation from usage.
 
-### [Structural Patterns](./structural/Readme.md)
+### [Structural Patterns](./src/structural/Readme.md)
 **Focus**: Object composition and relationships between objects
 
 Patterns covered:
@@ -80,7 +80,7 @@ Patterns covered:
 
 **Use when**: You need to compose objects into larger structures, adapt interfaces, or optimize memory usage while maintaining flexibility.
 
-### [Behavioral Patterns](./behavioral/Readme.md)
+### [Behavioral Patterns](./src/behavioral/Readme.md)
 **Focus**: Communication between objects and assignment of responsibilities
 
 Patterns covered:
