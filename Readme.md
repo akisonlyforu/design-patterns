@@ -16,6 +16,15 @@ Design Patterns provide:
 - **Flexible frameworks** that can be adapted to specific contexts
 - **Documentation** of tried-and-tested design approaches
 
+### The Four Essential Elements of a Pattern
+
+Beyond the one-line definition above, every pattern really has four parts, and the last of them, **consequences**, is what separates a real pattern from a mere tip:
+
+1. **Pattern name** — a handle for the problem, solution, and consequences; naming one well immediately expands your design vocabulary.
+2. **Problem** — when to apply it: the context and the conditions that must hold.
+3. **Solution** — the participating classes/objects, their responsibilities and collaborations — a *template*, not one concrete implementation.
+4. **Consequences** — the results and trade-offs. They're often left unspoken, but they're exactly what let you weigh one design alternative against another.
+
 ## Why Design Patterns?
 
 **In short**: They are used so that developers do not need to reinvent the wheel.
@@ -52,6 +61,15 @@ As quoted from a [StackOverflow answer](https://softwareengineering.stackexchang
 ## Pattern Categories
 
 This guide covers all three fundamental categories of design patterns:
+
+Patterns sort on **two** axes. The first is **purpose** (creational / structural / behavioral, below). The second is **scope**, does the pattern operate on **classes** (relationships fixed at compile-time through inheritance) or on **objects** (relationships set at run-time through composition)?
+
+| Scope ↓ / Purpose → | Creational | Structural | Behavioral |
+|---|---|---|---|
+| **Class** | Factory Method | Adapter (class) | Interpreter, Template Method |
+| **Object** | Abstract Factory, Builder, Prototype, Singleton | Adapter (object), Bridge, Composite, Decorator, Facade, Flyweight, Proxy | Chain of Responsibility, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Visitor |
+
+*Class patterns rely on inheritance; object patterns rely on composition. Adapter appears in both rows because it has a class form and an object form.*
 
 ### [Creational Patterns](./src/creational/Readme.md)
 **Focus**: Object creation mechanisms and instantiation control
@@ -132,6 +150,103 @@ Patterns covered:
 | **E-commerce Systems** | Strategy, Observer, Command | State, Facade, Builder |
 | **Content Management** | Composite, Visitor, Builder | Observer, Strategy, Adapter |
 | **Workflow Systems** | Chain of Responsibility, State, Command | Observer, Mediator, Strategy |
+
+## What Each Pattern Lets You Vary
+
+Another way to choose a pattern: ask *what you want to be able to change without redesign*. The principle is to **encapsulate the concept that varies**, each pattern isolates one such aspect:
+
+| Purpose | Pattern | Aspect(s) that can vary |
+|---|---|---|
+| **Creational** | Abstract Factory | families of product objects |
+| | Builder | how a composite object gets created |
+| | Factory Method | subclass of object that is instantiated |
+| | Prototype | class of object that is instantiated |
+| | Singleton | the sole instance of a class |
+| **Structural** | Adapter | interface to an object |
+| | Bridge | implementation of an object |
+| | Composite | structure and composition of an object |
+| | Decorator | responsibilities of an object without subclassing |
+| | Facade | interface to a subsystem |
+| | Flyweight | storage costs of objects |
+| | Proxy | how an object is accessed; its location |
+| **Behavioral** | Chain of Responsibility | object that can fulfill a request |
+| | Command | when and how a request is fulfilled |
+| | Interpreter | grammar and interpretation of a language |
+| | Iterator | how an aggregate's elements are accessed, traversed |
+| | Mediator | how and which objects interact with each other |
+| | Memento | what private information is stored outside an object, and when |
+| | Observer | number of objects that depend on another; how dependents stay up to date |
+| | State | states of an object |
+| | Strategy | an algorithm |
+| | Template Method | steps of an algorithm |
+| | Visitor | operations applied to object(s) without changing their class(es) |
+
+## Object-Oriented Foundations
+
+A precise vocabulary underpins every pattern, and these terms recur constantly in interviews and in the pattern write-ups.
+
+### Objects, Interfaces & Types
+
+- **Signature** — an operation's name, parameters, and return type.
+- **Interface** - the set of all signatures defined by an object's operations. Objects are known **only** through their interfaces.
+- **Type** — a name for a particular interface; an object can have many types.
+- **Subtype / supertype** - a type is a **subtype** of another when its interface contains the interface of its **supertype**. This is what makes substitution legal.
+- **Dynamic binding** - the run-time association of a request to an object and one of its operations.
+- **Polymorphism** - substituting objects with matching interfaces at run-time; a key concept in object-oriented systems.
+
+### Class vs. Type, and Two Kinds of Inheritance
+
+An object's **class** defines *how it is implemented*; its **type** defines *the requests it can respond to*. They are not the same — and neither are the two ways to "inherit":
+
+> **Class inheritance** defines an object's implementation in terms of another object's implementation, a mechanism for code and representation sharing. **Interface inheritance (or subtyping)**, by contrast, describes when an object can be used in place of another.
+
+That distinction is the reasoning behind the first principle of reusable design:
+
+> **Program to an interface, not an implementation.** Commit only to an interface defined by an abstract class, so clients stay unaware of the concrete types and classes they use.
+
+### Reusing Behavior: Inheritance vs. Composition vs. Parameterized Types
+
+Three ways to reuse and compose behavior:
+
+1. **Class inheritance, "white-box reuse."** Reuse by subclassing: static, compile-time, easy. But inheritance breaks encapsulation, a subclass sees its parent's internals, so a change to the parent can break subclasses.
+2. **Object composition — "black-box reuse."** Assemble objects through well-defined interfaces, wired dynamically at run-time. Keeps each class focused and encapsulated; requires carefully designed interfaces.
+3. **Parameterized types (generics / templates).** A third way to compose behavior, fixed at compile-time; it can't change at run-time. (A sort's comparison, for instance, can vary via a Template Method hook, a Strategy object, **or** a generic.)
+
+> **Favor object composition over class inheritance.** Inheritance is easy to overuse; designs are often made more reusable, and simpler, by leaning on object composition instead.
+
+**Delegation** is what makes composition as powerful as inheritance: two objects handle one request, a receiving object delegating the operation to its **delegate**. Instead of a `Window` *being* a `Rectangle` (subclass), it *has* one and forwards `Area()` to it, so it can turn circular at run-time just by swapping the delegate. **State, Strategy, and Visitor are all built on delegation.**
+
+### Run-Time vs. Compile-Time Structure: Aggregation vs. Acquaintance
+
+An object-oriented program's run-time structure often bears little resemblance to its code structure. Two object relationships look alike in code but differ in intent:
+
+- **Aggregation** ("has-a / part-of") — one object **owns** another and is responsible for it; they usually share a lifetime. *(UML: filled diamond ◆ — the one already on the Bridge diagram.)*
+- **Acquaintance** ("knows-a / uses / association") - an object merely **knows of** another; a weaker relationship that suggests much looser coupling. *(UML: plain arrow.)*
+
+## Designing for Change: Common Causes of Redesign
+
+The core argument for patterns: each one lets some aspect of system structure vary independently of the others, making the system more robust to a particular kind of change. If you remember one mapping, remember this, it answers *why does this pattern exist?*:
+
+| # | If your design suffers from… | Reach for |
+|---|---|---|
+| 1 | Creating an object by specifying a class explicitly | Abstract Factory, Factory Method, Prototype |
+| 2 | Dependence on specific operations | Chain of Responsibility, Command |
+| 3 | Dependence on hardware & software platform | Abstract Factory, Bridge |
+| 4 | Dependence on object representations / implementations | Abstract Factory, Bridge, Memento, Proxy |
+| 5 | Algorithmic dependencies | Builder, Iterator, Strategy, Template Method, Visitor |
+| 6 | Tight coupling | Abstract Factory, Bridge, Chain of Responsibility, Command, Facade, Mediator, Observer |
+| 7 | Extending functionality by subclassing | Bridge, Chain of Responsibility, Composite, Decorator, Observer, Strategy |
+| 8 | Inability to alter classes conveniently | Adapter, Decorator, Visitor |
+
+## Where Patterns Fit: Toolkits, Frameworks & Inversion of Control
+
+Patterns show up at every scale of reuse:
+
+- **Toolkit** — a library of reusable classes (e.g. collections). Emphasizes **code reuse**; it's the object-oriented equivalent of a subroutine library.
+- **Framework** — a reusable *design* for a class of software, customized by subclassing its abstract classes. Emphasizes **design reuse**.
+- **Inversion of control** - with a toolkit *you* call the library; with a framework you reuse the main body and write the code **it** calls, "don't call us, we'll call you."
+
+Patterns are **not** frameworks: they are more abstract, smaller architectural elements, and less specialized. A framework usually **contains** several patterns; the reverse is never true.
 
 ## Design Principles Foundation
 
