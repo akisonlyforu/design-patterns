@@ -12,6 +12,27 @@ The Singleton is one of those Gang of Four creational patterns that everyone lea
 
 The pattern falls under "creational patterns" because it controls *how* objects get created - specifically, by preventing multiple creations and managing the single instance's lifecycle.
 
+## The Basic Structure
+
+```
+┌─────────────────────────┐
+│       Singleton         │
+├─────────────────────────┤
+│ - instance: Singleton   │
+│ - data: String          │
+├─────────────────────────┤
+│ - Singleton()           │
+│ + getInstance(): Single │
+│ + getData(): String     │
+└─────────────────────────┘
+```
+
+The key pieces:
+- **Static instance field** - holds the one and only instance
+- **Private constructor** - prevents external instantiation
+- **Public static method** - controlled access point to get the instance
+- **Instance data** - whatever state your singleton needs to hold
+
 ## Why These Work
 
 **The `volatile` keyword** stops the JVM from doing sneaky optimizations that can break your singleton. Without it, other threads might see a half-constructed object. I learned this the hard way when my database connections were randomly throwing NPEs under load.
@@ -29,7 +50,7 @@ SingletonWithParameter config = SingletonWithParameter.getInstance("production-d
 SingletonWithParameter same = SingletonWithParameter.getInstance("test-db");
 
 System.out.println(config.getData()); // "production-db"
-System.out.println(same.getData());   // "production-db" (NOT "test-db"!)
+        System.out.println(same.getData());   // "production-db" (NOT "test-db"!)
 ```
 
 This caught me off guard initially, but it makes sense. Once you have a singleton, you have *the* singleton. Later parameters get ignored.
@@ -65,7 +86,7 @@ If you don't want to think about any of this threading stuff:
 ```java
 public enum DatabaseConfig {
     INSTANCE;
-    
+
     public void connect() { /* your logic */ }
 }
 ```
