@@ -1,6 +1,6 @@
 package creational.builder;
 
-public class TestVehicleBuilder {
+class TestVehicleBuilder {
     public static void main(String[] args) {
         System.out.println("=== Testing Builder Pattern ===\n");
 
@@ -85,6 +85,33 @@ public class TestVehicleBuilder {
             System.out.println("Exception: " + e.getMessage());
         }
 
+        // Test 9: Director pattern verification
+        System.out.println("\nTest 9: Director pattern verification");
+        VehicleDirector director = new VehicleDirector();
+
+        // Create sports car using director
+        Vehicle sportsCar = director.constructSportsCar(new Vehicle.VehicleBuilder("V8 Turbo", 4));
+        System.out.println("✓ Sports car created through director");
+        System.out.println("Sports car - Engine: " + sportsCar.getEngine() +
+                ", Wheels: " + sportsCar.getWheel() +
+                ", Airbags: " + sportsCar.getAirbags());
+
+        // Create family car using director
+        Vehicle familyCar = director.constructFamilyCar(new Vehicle.VehicleBuilder("V6", 4));
+        System.out.println("✓ Family car created through director");
+        System.out.println("Family car - Engine: " + familyCar.getEngine() +
+                ", Wheels: " + familyCar.getWheel() +
+                ", Airbags: " + familyCar.getAirbags());
+
+        // Verify different configurations
+        if (sportsCar.getAirbags() < familyCar.getAirbags()) {
+            System.out.println("✓ Director creates different configurations correctly");
+            System.out.println("Sports car (performance): " + sportsCar.getAirbags() + " airbags");
+            System.out.println("Family car (safety): " + familyCar.getAirbags() + " airbags");
+        } else {
+            System.out.println("✗ Director configuration error");
+        }
+
         System.out.println("\n=== Test Summary ===");
         System.out.println("Builder Pattern verified:");
         System.out.println("- Handles required and optional parameters correctly");
@@ -92,5 +119,6 @@ public class TestVehicleBuilder {
         System.out.println("- Creates immutable objects");
         System.out.println("- Builder can be reused for multiple objects");
         System.out.println("- Private constructor enforces builder usage");
+        System.out.println("- Director orchestrates specific vehicle configurations");
     }
 }

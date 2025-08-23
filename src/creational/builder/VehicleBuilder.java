@@ -55,3 +55,21 @@ class Vehicle {
         }
     }
 }
+
+// Director class - orchestrates building process for specific configurations
+class VehicleDirector {
+
+    // Creates a sports car configuration
+    public Vehicle constructSportsCar(Vehicle.VehicleBuilder builder) {
+        return builder
+                .setAirbags(2)  // Sports cars have minimal airbags for weight
+                .build();
+    }
+
+    // Creates a family car configuration
+    public Vehicle constructFamilyCar(Vehicle.VehicleBuilder builder) {
+        return builder
+                .setAirbags(8)  // Family cars prioritize safety
+                .build();
+    }
+}

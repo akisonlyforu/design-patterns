@@ -2,7 +2,7 @@
 
 ## What is Builder Pattern?
 
-Builder Pattern is a creational design pattern that provides a flexible solution for constructing complex objects step by step. It separates the construction of an object from its representation, allowing the same construction process to create different representations.
+Builder Pattern is a creational design pattern that provides a flexible solution for constructing complex objects step by step. It separates the construction of an object from its representation, allowing the same construction process to create different representations. It produces different types and representations of an object using the same construction process.
 
 ## Purpose
 
@@ -11,6 +11,11 @@ Builder Pattern is a creational design pattern that provides a flexible solution
 - Create immutable objects safely
 - Avoid telescoping constructor problem
 - Provide readable and maintainable object creation
+- Solve the problem of classes having very big constructors which is not good and can be confusing
+- Handle cases where we may not need to fill all fields with an object
+- Extract object creation code out of its own class and move it to separate objects called builders
+- Force users of your application to instantiate objects using the builder
+- Hide details of product construction from client code
 
 ## Structure
 
@@ -18,7 +23,7 @@ The pattern consists of:
 - **Product** - The complex object being built
 - **Builder** - Interface or class that defines construction steps
 - **Concrete Builder** - Implements the building steps and returns the product
-- **Director** - Optional class that orchestrates the building process
+- **Director** - Optional class that orchestrates the building process and defines the order in which construction steps should be called so that specific configurations of products can be reused
 
 The pattern relies on encapsulation and method chaining. The builder accumulates parameters and constructs the final object when requested.
 
