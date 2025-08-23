@@ -18,6 +18,8 @@ The pattern consists of:
 - **Concrete Products** - Specific implementations of the interface
 - **Factory Class** - Contains the creation logic
 
+The pattern relies on inheritance and polymorphism. All concrete products inherit from a common interface or abstract class, allowing the factory to return different implementations through the same interface type.
+
 ## Benefits
 
 - **Loose Coupling** - Client code doesn't depend on concrete classes

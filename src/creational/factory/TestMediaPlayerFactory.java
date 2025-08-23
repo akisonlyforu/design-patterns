@@ -1,6 +1,6 @@
 package creational.factory;
 
-class TestMediaPlayerFactory {
+public class TestMediaPlayerFactory {
     public static void main(String[] args) {
         System.out.println("=== Testing MediaPlayerFactory ===\n");
 
