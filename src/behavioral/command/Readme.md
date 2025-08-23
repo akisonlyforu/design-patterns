@@ -206,20 +206,6 @@ class CompositeCommand implements Command {
 }
 ```
 
-## Integration Patterns
-
-### With Memento Pattern
-- Commands use memento to store receiver state for undo operations
-- Enables complex undo scenarios with full state restoration
-
-### With Observer Pattern
-- Commands notify observers when executed
-- Supports event-driven architectures with command execution
-
-### With Factory Pattern
-- Command factories create appropriate commands based on input
-- Enables dynamic command creation and configuration
-
 ## Thread Safety Considerations
 
 ### Stateless Commands
