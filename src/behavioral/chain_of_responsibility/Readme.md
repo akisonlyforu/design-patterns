@@ -83,20 +83,6 @@ Client → Handler1 → Handler2 → Handler3 → ... → HandlerN
 
 A request processing system where different types of requests need to be handled by appropriate processors. Each processor examines the request and either handles it or passes it to the next processor in the chain. This allows for flexible request routing and processing without tightly coupling request senders to specific processors.
 
-## Key Differences from Other Patterns
-
-### Chain of Responsibility vs Command
-- **Chain of Responsibility**: Focuses on passing requests through handler chain
-- **Command**: Encapsulates requests as objects for queuing and undo operations
-
-### Chain of Responsibility vs Observer
-- **Chain of Responsibility**: Sequential processing, one handler typically processes request
-- **Observer**: Parallel notification, all observers receive and process notification
-
-### Chain of Responsibility vs Decorator
-- **Chain of Responsibility**: Alternative handlers, request flows through until handled
-- **Decorator**: Stacked responsibilities, all decorators participate in processing
-
 ## Real-World Applications
 
 - **Web Request Processing** - Servlet filters, middleware chains in web frameworks
