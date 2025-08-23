@@ -97,3 +97,9 @@ class ObjectPool<T extends Reusable> {
 interface ObjectFactory<T> {
     T create();
 }
+
+class ExpensiveObjectFactory implements ObjectFactory<ExpensiveObject> {
+    public ExpensiveObject create() {
+        return new ExpensiveObject(); // Factory knows the concrete type
+    }
+}
