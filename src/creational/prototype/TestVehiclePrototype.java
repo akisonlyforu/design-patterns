@@ -1,6 +1,6 @@
 package creational.prototype;
 
-class TestVehiclePrototype {
+public class TestVehiclePrototype {
     public static void main(String[] args) {
         System.out.println("=== Testing Prototype Pattern ===\n");
 
@@ -141,6 +141,62 @@ class TestVehiclePrototype {
 
         System.out.println("Constructor creation (1000x): " + constructorTime + " ms");
         System.out.println("Prototype cloning (1000x): " + cloneTime + " ms");
+
+        // Test 9: Vehicle Registry functionality
+        System.out.println("\nTest 9: Vehicle Registry functionality");
+        VehicleRegistry registry = new VehicleRegistry();
+
+        System.out.println("Available prototype types: " + registry.getAvailableTypes());
+        System.out.println("Registry has " + registry.getPrototypeCount() + " prototypes");
+
+        // Test getting prototypes from registry
+        Vehicle standardCar = registry.getPrototype("STANDARD_CAR");
+        Vehicle sportsCar = registry.getPrototype("SPORTS_CAR");
+        Vehicle cityBus = registry.getPrototype("CITY_BUS");
+        Vehicle schoolBus = registry.getPrototype("SCHOOL_BUS");
+
+        System.out.println("✓ Retrieved prototypes from registry:");
+        System.out.print("Standard Car: ");
+        standardCar.displayInfo();
+        System.out.print("Sports Car: ");
+        sportsCar.displayInfo();
+        System.out.print("City Bus: ");
+        cityBus.displayInfo();
+        System.out.print("School Bus: ");
+        schoolBus.displayInfo();
+
+        // Test adding custom prototype
+        Car customCar = new Car("Electric", 4, "Green", 4);
+        registry.addPrototype("ELECTRIC_CAR", customCar);
+
+        Vehicle electricCar = registry.getPrototype("ELECTRIC_CAR");
+        System.out.println("✓ Custom prototype added and retrieved:");
+        System.out.print("Electric Car: ");
+        electricCar.displayInfo();
+
+        // Test registry independence - modify cloned vehicle
+        standardCar.setColor("Purple");
+        Vehicle anotherStandardCar = registry.getPrototype("STANDARD_CAR");
+
+        System.out.println("Registry independence test:");
+        System.out.print("Modified clone: ");
+        standardCar.displayInfo();
+        System.out.print("Fresh from registry: ");
+        anotherStandardCar.displayInfo();
+
+        if (!standardCar.getColor().equals(anotherStandardCar.getColor())) {
+            System.out.println("✓ Registry prototypes remain unchanged when clones are modified");
+        } else {
+            System.out.println("✗ Registry prototype was affected by clone modification");
+        }
+
+        // Test invalid prototype type
+        try {
+            registry.getPrototype("INVALID_TYPE");
+            System.out.println("✗ Should have thrown exception for invalid type");
+        } catch (IllegalArgumentException e) {
+            System.out.println("✓ Registry correctly handles invalid prototype type");
+        }
 
         System.out.println("\n=== Test Summary ===");
         System.out.println("Prototype Pattern verified:");
