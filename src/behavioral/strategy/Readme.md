@@ -1,180 +1,134 @@
-# Strategy and Iterator Patterns
+# Strategy Pattern Implementation
 
-## Strategy Pattern
+## Overview
+The Strategy design pattern defines a class of algorithms, puts each of them in a separate class, and makes their objects interchangeable. This behavioral pattern allows an object to alter its behavior when its internal state changes.
 
-### What is Strategy Pattern?
+## Key Concepts from Notes
 
-Strategy Pattern is a behavioral design pattern that defines class of algorithms, puts each of them in separate class and makes their objects interchangeable. The context class has no visibility on how payment is being conducted as it is making use of strategy interface. Context doesn't know how algorithm is executed - strategies are independent and unaware of each other.
+**Behavioral Pattern**: Allows an object to alter its behavior when its internal state changes. The context class has no visibility on how the algorithm is being conducted as it is making use of the strategy interface. Context doesn't know how algorithm is executed. Strategies are independent and unaware of each other.
 
-### Purpose
+**Core Principles**:
+- Pattern is about having different implementations that accomplish the same thing
+- Replaceable and interchangeable by clients at runtime
+- Applies single responsibility and open/closed principles
+- You can jump from one strategy to another so that you can do different things based on the strategy
+- At any given moment, there's a finite number of strategies which a program can be in, and without any unique strategy, the program behaves differently
 
-- Define family of algorithms and make them interchangeable at runtime
-- Encapsulate algorithms in separate classes with common interface
-- Allow algorithm selection without changing client code that uses it
-- Enable addition of new algorithms without modifying existing context
-- Apply Single Responsibility and Open/Closed Principles
-- Replace conditional statements with polymorphic strategy objects
+## Design Components
 
-### Strategy Pattern Structure
+### Core Classes
 
-```
-┌─────────────────────────┐       ┌─────────────────────────┐
-│       Context           │       │    <<interface>>        │
-│   (PaymentService)      │       │      Strategy           │
-├─────────────────────────┤       │  (IPaymentStrategy)     │
-│ - strategy: Strategy    │◄──────├─────────────────────────┤
-├─────────────────────────┤       │ + execute()             │
-│ + setStrategy()         │       └─────────────────────────┘
-│ + execute()             │                   △
-└─────────────────────────┘           ┌───────┼─────────────┐
-                                      │               │     │
-                              ┌───────▽────┐    ┌─────▽─────────┐
-                              │ConcreteA   │    │ConcreteB      │
-                              │(PayPal)    │    │(CreditCard)   │
-                              ├────────────┤    ├───────────────┤
-                              │+execute()  │    │+execute()     │
-                              └────────────┘    └───────────────┘
-```
+1. **Strategy Interface** - Defines the common interface for all algorithms
+2. **Context Class** - Maintains reference to current strategy and delegates execution
+3. **Concrete Strategies** - Implement specific algorithms that accomplish the same goal
+4. **Client** - Selects and configures appropriate strategies at runtime
 
-### When to Use Strategy Pattern
-
-- When you have multiple ways to perform a task
-- When you want to switch algorithms at runtime
-- When you have complex conditional statements for algorithm selection
-- When algorithms should be independent and interchangeable
-- When you need to add new algorithms without changing existing code
-
-## Iterator Pattern
-
-### What is Iterator Pattern?
-
-Iterator Pattern is a behavioral design pattern that extracts traversal behavior of collection into separate object called an iterator. It provides a way to traverse elements of collection without exposing its underlying representation. Several iterators can go through same collection at same time.
-
-### Purpose
-
-- Provide uniform way to access elements of different collection types
-- Hide internal structure of collections from client code
-- Support multiple simultaneous traversals of same collection
-- Enable different traversal algorithms (forward, reverse, filtered)
-- Separate collection management from traversal logic
-- Follow Single Responsibility Principle for collection operations
-
-### Iterator Pattern Structure
+## Strategy Selection Flow
 
 ```
-┌─────────────────────────┐       ┌─────────────────────────┐
-│    <<interface>>        │       │    <<interface>>        │
-│      Iterator           │       │     Aggregate          │
-├─────────────────────────┤       ├─────────────────────────┤
-│ + hasNext(): boolean    │       │ + createIterator()      │
-│ + getNext(): Object     │       └─────────────────────────┘
-│ + reset(): void         │                   △
-└─────────────────────────┘                   │
-            △                         ┌───────▽──────────┐
-            │                         │ ConcreteAggregate │
-    ┌───────▽──────────┐              │   (Company)       │
-    │ ConcreteIterator  │◄─────────────├───────────────────┤
-    │(EmployeeIterator) │              │ - items: List     │
-    ├───────────────────┤              ├───────────────────┤
-    │ - currentIndex    │              │ + createIterator()│
-    │ + hasNext()       │              │ + addItem()       │
-    │ + getNext()       │              │ + removeItem()    │
-    │ + reset()         │              └───────────────────┘
-    └───────────────────┘
+Client Request → Context → Strategy Selection → Algorithm Execution
+
+1. Client determines which algorithm to use
+2. Context receives strategy reference  
+3. Context delegates execution to current strategy
+4. Strategy executes its specific algorithm
+5. Result returned through context to client
 ```
 
-### When to Use Iterator Pattern
+## UML Class Diagram
 
-- When you need to traverse collections without exposing internal structure
-- When you want to support multiple simultaneous traversals
-- When you need different ways to traverse same collection
-- When you want uniform traversal interface for different collection types
-- When collection structure is complex and should be hidden from client
+```
+┌─────────────────┐       ┌──────────────────┐
+│    Context      │──────►│   <<interface>>  │
+│                 │       │    Strategy      │
+│ - strategy      │       │                  │
+│ + setStrategy() │       │ + execute()      │
+│ + execute()     │       └─────────┬────────┘
+└─────────────────┘                 ▲
+                                    │
+                        ┌───────────┼───────────┐
+                        │                       │
+              ┌─────────▼─────────┐   ┌─────────▼─────────┐
+              │   ConcreteA       │   │   ConcreteB       │
+              │                   │   │                   │
+              │ + execute()       │   │ + execute()       │
+              └───────────────────┘   └───────────────────┘
+
+┌─────────────────┐
+│     Client      │
+│                 │
+│ + operation()   │
+└─────────────────┘
+```
+
+## Strategy Pattern vs State Pattern
+
+While both patterns involve composition and delegation, they serve different purposes:
+
+### Strategy Pattern (This Implementation)
+- **Purpose**: Choose algorithm/behavior at runtime
+- **Independence**: Strategies are independent of context and each other
+- **No Transitions**: Strategies don't change each other
+- **Interchangeable**: Strategies can be swapped without state concept
+- **Client Control**: Client typically chooses which strategy to use
+- **Same Interface**: All strategies accomplish the same goal differently
+
+### State Pattern
+- **Purpose**: Change behavior based on internal state
+- **Context Awareness**: States know about context and can change it
+- **State Transitions**: States can trigger transitions to other states
+- **Single Active State**: Only one state active at a time
+- **Internal Control**: Object changes its own state based on conditions
+- **Different Behaviors**: Each state may have completely different behaviors
+
+## Strategy Characteristics
+
+### Context Behavior
+- **No Algorithm Visibility**: Context has no knowledge of how algorithms are implemented
+- **Strategy Delegation**: All algorithm execution is delegated to current strategy
+- **Runtime Selection**: Strategies can be switched at runtime
+- **Interface Dependency**: Context only depends on strategy interface, not concrete implementations
+
+### Strategy Independence
+- **Isolated Algorithms**: Each strategy is unaware of other strategies
+- **Self-Contained**: Strategies handle their own algorithm logic independently
+- **Interchangeable**: Any strategy implementing the interface can be used
+- **Separate Responsibilities**: Each strategy has single responsibility for its algorithm
+
+## Expected Behavior
+
+The demonstration will show:
+- Runtime strategy selection and switching
+- Context delegation to different algorithms
+- Independent strategy execution
+- Algorithm interchangeability without context modification
+- Error handling for invalid strategy states
 
 ## Pattern Benefits
 
-### Strategy Pattern Benefits
-
-- **Runtime Flexibility**: Algorithms can be switched at runtime
-- **Open/Closed Principle**: New strategies added without changing context
-- **Single Responsibility**: Each strategy handles one algorithm
-- **Testability**: Strategies can be tested independently
-- **Maintainability**: Algorithm changes isolated to specific strategy classes
-
-### Iterator Pattern Benefits
-
-- **Encapsulation**: Internal collection structure hidden from clients
-- **Multiple Traversals**: Several iterators can work simultaneously
-- **Uniform Interface**: Same interface for different collection types
-- **Traversal Flexibility**: Different iteration strategies supported
-- **Independence**: Collection can change without affecting iteration
+- **Runtime Algorithm Selection**: Choose payment method at runtime
+- **Easy Extension**: Add new payment methods without modifying existing code
+- **Single Responsibility**: Each payment method handles its own logic
+- **Open/Closed Principle**: Open for extension, closed for modification
+- **Eliminates Conditional Logic**: No need for large if/switch statements
+- **Independent Strategies**: Payment methods don't depend on each other
 
 ## Real-World Applications
 
-### Strategy Pattern Applications
+- **Algorithm Selection**: Sorting algorithms, search algorithms, compression methods
+- **Business Rules**: Tax calculation strategies, pricing strategies, discount policies
+- **Authentication**: OAuth, LDAP, database authentication methods
+- **Data Processing**: File format handlers, data validation strategies
+- **Communication**: Network protocols, message formatting strategies
+- **UI Behavior**: Layout strategies, rendering strategies, input validation
+- **Game Development**: AI behavior strategies, movement strategies, combat strategies
 
-- **Payment Processing**: PayPal, Credit Card, Bank Transfer strategies
-- **Sorting Algorithms**: QuickSort, MergeSort, BubbleSort strategies
-- **Compression**: ZIP, RAR, 7Z compression strategies
-- **Transportation**: Car, Transit, Walking route strategies
-- **Pricing**: Regular, Premium, Discount pricing strategies
-- **Validation**: Email, Phone, Credit Card validation strategies
+## Extending the System
 
-### Iterator Pattern Applications
+To add a new algorithm implementation:
 
-- **Java Collections**: ArrayList, LinkedList, HashSet iterators
-- **Database Access**: ResultSet iteration in JDBC
-- **File Systems**: Directory and file tree traversal
-- **Social Media**: Posts, comments, message iteration
-- **Game Development**: Game object collection traversal
-- **Document Processing**: Paragraph, sentence, word iteration
+1. **Create new strategy class** implementing the strategy interface
+2. **Update client selection logic** to include new strategy option
+3. **No changes needed** to existing context or other strategies
 
-## Performance Considerations
-
-### Strategy Pattern Performance
-
-- **Minimal Overhead**: Strategy selection has negligible performance cost
-- **Memory Usage**: Each strategy instance consumes memory
-- **Initialization**: Strategy objects can be created on-demand or cached
-- **Thread Safety**: Stateless strategies are inherently thread-safe
-
-### Iterator Pattern Performance
-
-- **Traversal Cost**: Iterator adds slight overhead compared to direct access
-- **Memory Usage**: Iterator maintains traversal state
-- **Concurrent Modification**: Consider fail-fast behavior for safety
-- **Large Collections**: Iterator enables memory-efficient traversal
-
-## Anti-Patterns to Avoid
-
-### Strategy Pattern Anti-Patterns
-
-- **Strategy Explosion**: Too many strategy classes for minor variations
-- **Inappropriate Strategy**: Using strategy when simple conditional suffices
-- **Stateful Strategies**: Strategies that maintain state between uses
-- **Complex Context**: Context becoming too complex or strategy-aware
-
-### Iterator Pattern Anti-Patterns
-
-- **Exposing Internal Structure**: Iterator revealing collection internals
-- **Inefficient Traversal**: Iterator causing unnecessary performance overhead
-- **Concurrent Modification**: Not handling concurrent collection modifications
-- **Heavy Iterator**: Iterator carrying too much state or logic
-
-## Modern Alternatives
-
-### Strategy Pattern Alternatives
-
-- **Lambda Expressions**: For simple strategies in functional languages
-- **Method References**: Direct method references instead of strategy objects
-- **Enum with Methods**: Enum constants with behavioral methods
-
-### Iterator Pattern Alternatives
-
-- **Streams API**: Java 8+ streams for functional-style iteration
-- **For-Each Loops**: Enhanced for loops with Iterable collections
-- **Reactive Streams**: Asynchronous stream processing
-
-## Conclusion
-
-Strategy and Iterator patterns provide complementary solutions for behavioral design problems. Strategy pattern enables flexible algorithm selection and execution, while Iterator pattern provides uniform collection traversal. Both patterns promote loose coupling, enhance maintainability, and support extensibility. When used together, they create powerful combinations for processing collections with configurable algorithms, as demonstrated in payroll processing systems where Iterator provides employee traversal and Strategy handles payment processing.
+This demonstrates the Open/Closed Principle - the system is open for extension but closed for modification.
